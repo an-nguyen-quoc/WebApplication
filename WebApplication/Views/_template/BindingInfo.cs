@@ -15,8 +15,12 @@ namespace Vst
         public string Input { get; set; }
         public bool AllowNull { get; set; }
         public object Value { get; set; }
+
+        public string FixValue { get; set; }
         public string Type { get; set; }
         public string FormatString { get; set; }
         public int Width { get; set; }
+
+        public bool Disabled { get; set; }
     }
 }

@@ -1,31 +1,32 @@
-﻿@model Models.AccountBinding
-
+﻿@model Models.UserCreate
+@using Models
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "Đăng ký";
     var view = new VstViewFormat
     {
         DataSource = Model,
         Columns = new List<ColumnInfo>
         {
-            new ColumnInfo { Name = "UserName", ClassName = "lg-12", Caption = "Tên người dùng", AllowNull = false },
-            new ColumnInfo { Name = "Password", ClassName = "lg-12", Caption = "Mật khẩu", Type = "password" },
-            new ColumnInfo { Name = "KeepLogin", ClassName = "lg-12", Caption = "Duy trì đăng nhập", Input = "checkbox" },
+            new ColumnInfo { Name = "UserName",  Caption = "Tên người dùng", Type = "text", AllowNull = false },
+            new ColumnInfo { Name = "Password",  Caption = "Mật khẩu", Type = "password" },
+            new ColumnInfo { Name = "ConfirmPassword",  Caption = "Nhập lại Mật khẩu", Type = "password" },
+            new ColumnInfo { Name = "Role",  Caption = "Quyền", Type="text" , Disabled = true},
         },
     };
 }
 
-<h2>Login</h2>
+<h2>Đăng ký tài khoản mới</h2>
 <div id="main-content"></div>
 
 <script>
     var fields = @view.HtmlColumns;
     var values = @view.HtmlData;
-
-    var dlg = new ApiForm("/home/login", fields, values);
+    
+    var dlg = new ApiForm("/home/signup", fields, values);
     ApiMessages = ["Dang nhap thanh cong", "Nguoi dung khong ton tai", "Sai mat khau"];
 
-    responseOK = function (e) {
-        window.location.href = "/home/index/" + e.Value.Id;
+    responseOK = function () {
+        window.location.href = "/home/index/";
     }
     //showMsg = function (s) { alert(s); }
 </script>

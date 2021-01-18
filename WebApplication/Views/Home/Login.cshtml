@@ -1,15 +1,15 @@
 ﻿@model Models.AccountBinding
 
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "Đăng nhập";
     var view = new VstViewFormat
     {
         DataSource = Model,
         Columns = new List<ColumnInfo>
         {
-            new ColumnInfo { Name = "UserName", ClassName = "lg-12", Caption = "Tên người dùng", AllowNull = false },
-            new ColumnInfo { Name = "Password", ClassName = "lg-12", Caption = "Mật khẩu", Type = "password" },
-            new ColumnInfo { Name = "KeepLogin", ClassName = "lg-12", Caption = "Duy trì đăng nhập", Input = "checkbox" },
+            new ColumnInfo { Name = "UserName",  Caption = "Tên người dùng", Type ="text", AllowNull = false },
+            new ColumnInfo { Name = "Password",  Caption = "Mật khẩu", Type = "password" },
+            //new ColumnInfo { Name = "KeepLogin",  Caption = "Duy trì đăng nhập", Type = "checkbox" },
         },
     };
 }
@@ -23,8 +23,10 @@
 
     var dlg = new ApiForm("/home/login", fields, values);
     ApiMessages = ["Dang nhap thanh cong", "Nguoi dung khong ton tai", "Sai mat khau"];
-
+    //alert("Login.cshtml");
+    
     responseOK = function (e) {
+        console.debug(e.Value);
         window.location.href = "/home/index/" + e.Value.Id;
     }
     //showMsg = function (s) { alert(s); }

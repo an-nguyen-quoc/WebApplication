@@ -16,6 +16,19 @@ namespace Models
         public string UserName { get; set; }
 
     }
+
+    public class UserCreate: BsonData.Document
+    {
+        public UserCreate()
+        {
+            Role = Permission.USER;
+        }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
+        public static Permission Role { get; set; }
+    }
+
     public class UserInfo : BsonData.Document
     {
         public string Name { get; set; }

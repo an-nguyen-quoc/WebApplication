@@ -43,12 +43,16 @@ namespace System.Web
             var lst = new JsonObject();
             lst.Add("tag", Input);
             lst.Add("type", Type);
-            lst.Add("cls", ClassName);
+            lst.Add("class", ClassName);//Note cls
             lst.Add("name", Name);
             lst.Add("caption", Caption);
+            if (FixValue != null)
+                lst.Add("value", FixValue);
+            else
             lst.Add("value", Value);
+            
             if (!AllowNull) { lst.Add("required", true); }
-
+            if (Disabled) { lst.Add("disabled", true); }
             return lst.ToString();
 
         }
@@ -83,6 +87,7 @@ namespace System.Web
                 {
                     var v = p.GetValue(value);
                     lst.Add(col.Name, v, col.FormatString);
+                    
                 }
             }
 

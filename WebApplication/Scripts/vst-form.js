@@ -82,7 +82,7 @@ function control(t) {
         return this.required(!b);
     }
 
-    this.addClass("form-control");
+    //this.addClass("col-6 col-12-medium");
 }
 
 function input() {
@@ -154,7 +154,7 @@ function select() {
     var normCls = this.node.className;
 
     var span = this.child(new tag("span").addClass("current"));
-    var ul = this.child(new tag("ul").addClass("list"));
+    var ul = this.child(new tag("div").addClass("list"));
 
     var inp = this.child(new input());
     inp.node.hidden = true;
@@ -169,7 +169,7 @@ function select() {
         var found = false;
 
         while (li) {
-            li.className = "option";
+            //li.className = "option";
             if (!found && li.getAttribute("data-value") == v) {
                 li.className += " selected";
                 span.html(li.innerText);
@@ -183,10 +183,10 @@ function select() {
 
     var self = this;
     this.event("click", function (n) {
-        if (n.tagName == "LI") {
+      if (n.tagName == "INPUT") {
             var li = ul.node.firstElementChild;
             while (li) {
-                li.className = "option";
+                //li.className = "option";
                 li = li.nextElementSibling;
             }
 
@@ -194,8 +194,8 @@ function select() {
 
             var v = inp.valueOf();
             if (n.innerText != v) {
-                span.html(v = n.innerText);
-
+             span.html(v = n.innerText);
+             
                 inp.value(n.getAttribute("data-value"));
 
                 n = ul.node.parentElement;
@@ -214,15 +214,16 @@ function select() {
             ul.node.style.width = n.offsetWidth + "px";
         }
     });
-
+    // Da sua o day
     this.options = function (items) {
         if (Array.isArray(items)) {
             for (var i = 0; i < items.length; i++) {
-                li = ul.child(new tag("li").data("value", items[i]).html(items[i])).addClass("option");
+                li = ul.child(new tag("INPUT").data("value", items[i]).attr("type", "radio").attr("name", "select").attr("id", items[i])).addClass("option");
+                label = ul.child(new tag("label").html(items[i]).attr("for", items[i]));//li.caption(items[i]);
             }
         } else {
             for (var key in items) {
-                li = ul.child(new tag("li").data("value", key).html(items[key])).addClass("option");
+                li = ul.child(new tag("INPUT").data("value", key).attr("type", "radio").html(items[key])).addClass("option");
             }
         }
     }
@@ -257,13 +258,13 @@ function VstControlBox(d, p) {
 
             var cls = "col-" + get(cols[i].cls, "12");
             var div = this.child(new tag().addClass(cls));
-            div = div.child(new tag().addClass("form-group"));
+            //div = div.child(new tag().addClass("col-6"));
 
             var c = div.child(new window[tg]);
             var val;
             for (var key in cols[i]) {
 
-                if (key == "tag" || key == "cls") {
+                if (key == "tag" || key == "class") {
                     continue;
                 }
                 if (key == "value") {
@@ -331,7 +332,7 @@ function VstTable(d, p, u, a) {
     var columns;
 
     function createAct(div, name) {
-        div.child(new tag()).addClass("btn " + name).html("<i class='fa fa-" + name + "'></i>").event("click", function (n) {
+        div.child(new tag()).addClass("button " + name).html("<i class='fa fa-" + name + "'></i>").event("click", function (n) {
             if (n.tagName != "DIV") { n = n.parentElement; }
             var id = n.parentElement.id;
             var a = n.className.split(' ');
@@ -438,7 +439,7 @@ function VstTable(d, p, u, a) {
                 dl.child(new tag("dd").html(row[key]));
             }
             b.child(dl);
-            a.addClass("btn-danger");
+            a.addClass("button fit");
             a.event("click", function () {
                 self.autoUpdate({ action: "delete", id: row.Id });
             });
@@ -465,21 +466,21 @@ function VstModal(title, callback, cls, id) {
         .child(new tag().addClass("modal-dialog"))
         .child(new tag().addClass("modal-content"));
 
-    var header = content.child(new tag().addClass("modal-header")).html("<h4 class='modal-title'>" + title + "</h4><button type='button' class='close' data-dismiss='modal'>&times;</button>");
+    var header = content.child(new tag().addClass("modal-header")).html("<h4 class='modal-title'>" + title + "</h4>");
     var body = content.child(new tag().addClass("modal-body"));
     var footer = content.child(new tag().addClass("modal-footer"));
-    var accept = footer.child(new tag("button").addClass("btn btn-" + cls).html("OK")).data("dismiss", "modal");
-    footer.child(new tag("button").addClass("btn btn-default").html("Cancel")).id("toggle" + id).data("target", '#' + id).data("toggle", "modal").event("click", function () {
+    var accept = footer.child(new tag("button").addClass("button " + cls).html("OK")).data("dismiss", "modal");
+    footer.child(new tag("button").addClass("button primary").html("Cancel")).id("toggle" + id).data("target", '#' + id).data("toggle", "modal").event("click", function () {
         var n = document.getElementById(id);
-        if (n.className.indexOf("show") > 0) {
+        if (n != null) {
             var t = setTimeout(function () { n.remove(); }, 500);
         }
     });
-
-    document.body.appendChild(this.node);
+    var section = document.getElementById("main-section");
+    section.appendChild(this.node);
     callback(body, accept);
 
-    document.getElementById("toggle" + id).click();
+    //document.getElementById("toggle" + id).click();
 }
 
 function VstSubmitForm(a, d, p, o) {
@@ -490,8 +491,8 @@ function VstSubmitForm(a, d, p, o) {
     this.childOf(p);
 
     var box = new VstControlBox(d, "main-form").value(o);
-    box.next(new tag()).addClass("footer form-group mt-3")
-        .html("<button class='btn btn-primary' id='submit-button'>SUBMIT</button>");
+    box.next(new tag()).addClass("col-6")
+        .html("<button class='button primary' id='submit-button'>SUBMIT</button>");
 
     this.inputs = box.controls;
 

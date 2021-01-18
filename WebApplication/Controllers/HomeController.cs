@@ -11,6 +11,7 @@ namespace WepApp.Controllers
     {
         public ActionResult Index(string id)
         {
+            System.Diagnostics.Debug.WriteLine("Home/Index");
             if (id != null)
             {
                 var u = new UserController().Collection.FindById<Models.UserInfo>(id);
@@ -21,6 +22,7 @@ namespace WepApp.Controllers
                     Expires = DateTime.Now.AddMinutes(10),
                 };
                 Response.SetCookie(cookie);
+                System.Diagnostics.Debug.WriteLine(" - GoHome - ");
                 return GoHome();
             }
 
@@ -30,13 +32,57 @@ namespace WepApp.Controllers
 
         public ActionResult Login()
         {
+            System.Diagnostics.Debug.WriteLine("Home/Login");
             return View(new Models.AccountBinding());
         }
 
         public ActionResult Signup()
         {
-            return View(new Models.AccountBinding());
+            return View(new Models.UserCreate());
         }
+
+        [HttpPost]
+        public ActionResult Signup(Models.UserCreate userCreate)
+        {
+            System.Diagnostics.Debug.WriteLine("Home/Signup");
+            var account = GetApiObject<Models.AccountBinding>();
+            account.UserName = userCreate.UserName;
+            account.Password = userCreate.Password;
+            if (Collection.Contains(account.UserName))
+            {
+                ViewBag.Message = "EXISTS";
+                System.Diagnostics.Debug.WriteLine("Home/Signup/Exist");
+                return GoFirst(); // Chu y doan nay
+                
+            }
+            account.Role = Permission.USER;
+            Collection.Insert(account.UserName, account);
+            System.Diagnostics.Debug.WriteLine("Home/Signup/Addacc");
+            return GoFirst();
+        }
+
+
+        public object ApiSignup()
+        {
+            System.Diagnostics.Debug.WriteLine("Home/ApiSignup");
+            
+            var userCreate = GetApiObject<Models.UserCreate>();
+            var account = new Models.AccountBinding();
+
+            account.UserName = userCreate.UserName;
+            account.Password = MD5Hash(userCreate.Password);
+            if (new AccountController().Collection.Contains(account.UserName))
+            {
+                ViewBag.Message = "EXISTS";
+                System.Diagnostics.Debug.WriteLine("Home/Signup/Exist");
+                return GoFirst(); // Chu y doan nay
+
+            }
+            account.Role = Permission.USER;
+            new AccountController().Collection.Insert(account.UserName, account);
+            System.Diagnostics.Debug.WriteLine("Home/Signup/Addacc");
+            return Success();
+            }
 
         public ActionResult Logout()
         {
@@ -47,6 +93,7 @@ namespace WepApp.Controllers
 
         public object ApiLogin()
         {
+            System.Diagnostics.Debug.WriteLine("Home/ApiLogin");
             var acc = GetApiObject<Models.AccountBinding>();
             var id = acc.UserName.ToLower();
             var e = new AccountController()
@@ -66,12 +113,14 @@ namespace WepApp.Controllers
             new UserController().Collection.Insert(token, u);
             
             u.Id = token;
+            System.Diagnostics.Debug.WriteLine("Home/ApiLogin/Success");
             return Success(u);
         }
 
         [HttpPost]
         public ActionResult Login(Models.AccountBinding account)
         {
+            System.Diagnostics.Debug.WriteLine("Home/Login(acc)");
             var e = new AccountController()
                 .Collection
                 .FindById<Models.Account>(account.UserName);

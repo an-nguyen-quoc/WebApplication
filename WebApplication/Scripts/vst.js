@@ -91,7 +91,7 @@ function beginSearch() {
 }
     
 function ApiForm(action, fields, model) {
-
+    console.log("vst.js/ApiForm");
     VstContainer.apply(this, ["form"]);
 
     var self = this;
@@ -101,8 +101,8 @@ function ApiForm(action, fields, model) {
 
 
     var box = new VstControlBox(fields, "main-form").value(model);
-    var footer = box.next(new tag()).addClass("footer row col-lg-12");
-    this.submit = footer.child(new tag("a").addClass("btn btn-primary").html("SUBMIT"));
+    var footer = box.next(new tag()).addClass("col-6");
+    this.submit = footer.child(new tag("a").addClass("button primary").html("SUBMIT"));
 
     this.canSubmit = function () {
         return action;
@@ -138,9 +138,9 @@ function ApiTable(url, cols, rows, update, actions) {
 
     VstContainer.apply(this);
     this.addClass("progress-table-wrap");
-    var table = this.child(new tag()).addClass("progress-table");
+    var table = this.child(new tag("table")).addClass("progress-table");
 
-    var head = table.child(new tag().addClass("table-head")).id("tab-header");
+    var head = table.child(new tag("tr").addClass("table-head")).id("tab-header");
 
     var self = this;
     var rowsData;
@@ -148,7 +148,7 @@ function ApiTable(url, cols, rows, update, actions) {
 
     function createAct(div, name) {
         div.child(new tag())
-            .addClass("btn " + name).html("<i class='fa fa-" + name + "'></i>")
+            .addClass("button " + name).html("<i class='fa fa-" + name + "'></i>")
             .event("click", function (n) {
             while (n.tagName != "DIV") { n = n.parentElement; }
             var id = n.id;
@@ -167,10 +167,11 @@ function ApiTable(url, cols, rows, update, actions) {
             var c = col.caption;
             if (!c) { col.caption = c = n; }
 
-            var td = head.child(new tag().addClass(n).html(c));
+            //var td = head.child(new tag(i).addClass(n).html(c));
+            var td = head.child(new tag("td").html(c));
             columns[n] = col;
         }
-        var act = head.child(new tag().addClass("action"));
+        var act = head.child(new tag("td").addClass("action"));
         if (update & 1) {
             createAct(act, "plus");
         }
@@ -182,9 +183,9 @@ function ApiTable(url, cols, rows, update, actions) {
         for (var k in columns) {
             var v = rowsData[i][k];
             if (!v) { v = ""; }
-            tr.child(new tag()).addClass(k).html(v);
+            tr.child(new tag("td")).html(v);
         }
-        var act = tr.child(new tag().addClass("action")).data("index", i);
+        var act = tr.child(new tag("td").addClass("action")).data("index", i);
 
         if (actions) {
             var it = actions.split(',');
@@ -202,7 +203,7 @@ function ApiTable(url, cols, rows, update, actions) {
         }
     }
     function createRow(i) {
-        var tr = new tag().addClass("table-row").id("r" + i);
+        var tr = new tag("tr").addClass("table-row").id("r" + i);
         createRowCells(tr, i);
 
         return tr;
@@ -285,7 +286,7 @@ function ApiTable(url, cols, rows, update, actions) {
                 dl.child(new tag("dd").html(editRow[key]));
             }
             b.child(dl);
-            a.addClass("btn-danger");
+            a.addClass("button");
             a.event("click", function () {
 
                 responseOK = function () {
@@ -314,7 +315,7 @@ function createArt(cls) {
         + "<div class='art-border art-vert art-right'><div class='art-border'></div></div>";
 
     if (!mc.className) {
-        if (!cls) { cls = "col-lg-6" };
+        if (!cls) { cls = "col-6" };
         mc.className = cls;
     }
 

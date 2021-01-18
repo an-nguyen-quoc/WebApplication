@@ -1,19 +1,20 @@
-﻿@{
+﻿@using Models;
+@{
     ViewBag.Title = "Accounts";
     var view = new VstViewFormat
     {
         DataSource = Model,
         Columns = new List<ColumnInfo>
 {
-            new ColumnInfo { Name = "Id", ClassName = "lg-12", Caption = "Tên người dùng", AllowNull = false },
-            new ColumnInfo { Name = "Role", ClassName = "lg-12", Caption = "Role", Input = "select" },
-            new ColumnInfo { Name = "Password", ClassName = "lg-12", Caption = "Mật khẩu", Input = "none" },
+            new ColumnInfo { Name = "Id",  Caption = "Tên người dùng", AllowNull = false, Type="text" },
+            new ColumnInfo { Name = "Role",  Caption = "Role", Input = "select"},
+            //new ColumnInfo { Name = "Password",  Caption = "Mật khẩu", Input = "none" },
         },
     };
 }
 
 <h2>@ViewBag.Title - Test</h2>
-<style>
+@*<style>
     .Id {
         width: 200px;
         background-color: whitesmoke;
@@ -21,7 +22,7 @@
     .Role {
         width: 80px;
     }
-</style>
+</style>*@
 
 <div id="main-content"></div>
 
@@ -29,6 +30,6 @@
     var fields = @view.HtmlColumns;
     var values = @view.HtmlData;
 
-    fields[1].options = ["Admin", "Guest"];
+    fields[1].options = ["USER", "MOD"];
     var table = new ApiTable("/account/", fields, values, 7, "gear");
 </script>

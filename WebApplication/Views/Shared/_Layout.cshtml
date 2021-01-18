@@ -2,59 +2,56 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <title>@ViewBag.Title</title>
     @*@Styles.Render("~/Content/css")*@
     @Scripts.Render("~/bundles/modernizr")
-    <link rel="stylesheet" href="~/Content/bootstrap.css"/>
-    <link rel="stylesheet" href="~/Content/Site.css?v=1.0" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    @*<link rel="stylesheet" href="~/Content/bootstrap.css" />*@
+    @*<link rel="stylesheet" href="~/Content/Site.css?v=1.0" />*@
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">*@
     <script src="~/Scripts/vst-form.js?v=1.0.2.1"></script>
     <script src="~/Scripts/vst.js?v=1.0.4.1"></script>
+    <link rel="stylesheet" href="~/Content/assets/css/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="~/Content/assets/css/main.css" />
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">Lập trình nâng cao</a>
+<body class="is-preload">
+    <div id="wrapper">
+        <div id="main">
+            <div class="inner">
+                <header id="header">
+                    <a href="/" class="logo"><strong>Lập trình Nâng cao</strong> by ALA</a>
+                    @if (ViewBag.Account != null)
+                    {
+                        <ul class="icons">
+                            <li><a href="/home/logout" class="icon brands"><button> Đăng xuất</button> </a></li>
+                        </ul>
+                    }
+                    else
+                    {
+                <ul class="icons">
+                    <li><a href="/home/login" class="icon brands"> <button> Đăng nhập</button> </a></li>
+                    <li><a href="/home/signup" class="icon brands"> <button> Đăng ký </button> </a></li>
+                </ul>
+                    }
+                </header>
+                <section id="main-section">
+                    @RenderBody()
+                </section>
             </div>
-            <div class="navbar-collapse collapse">
-                @if (ViewBag.Account != null)
-                {
-                    <ul class="nav navbar-nav">
-                        <li><a href="/@ViewBag.Account.Id">Home</a></li>
-                        <li><a href="/device">Devices</a></li>
-                    </ul>
-                    <div class="" style="float: right">
-                        <a href="/home/logout">Logout</a>
-                    </div>
-                }
-                else
-                {
-                    <ul class="nav navbar-nav" style="float: right">
-                        <li><a href="/home/login">Login</a></li>
-                    </ul>
-                }
-            </div>
+            
         </div>
+        <div id="sidebar"></div>
     </div>
-    <div class="container body-content">
-        <div class="row">
-            @RenderBody()
-        </div>
-        <footer>
-            <hr />
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Content/assets/js/jquery.min.js"></script>
+    <script src="~/Content/assets/js/browser.min.js"></script>
+    <script src="~/Content/assets/js/breakpoints.min.js"></script>
+    <script src="~/Content/assets/js/util.js"></script>
+    <script src="~/Content/assets/js/main.js"></script>
+
+    @*@Scripts.Render("~/bundles/jquery")*@
+   @* @Scripts.Render("~/bundles/bootstrap")*@
     @RenderSection("scripts", required: false)
 </body>
 </html>
