@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Models;
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -40,7 +41,29 @@
             </div>
             
         </div>
-        <div id="sidebar"></div>
+        <div id="sidebar">
+            <div class="inner">
+                <nav id="menu">
+                    <header class="major">
+                        <h2>Menu</h2>
+                    </header>
+                    <ul>
+                        <li><a href="/">Trang chủ</a></li>
+                        @if (ViewBag.Account != null)
+                        {
+                            <li><a href="/device/">Thiết bị</a></li>
+                            <li><a href="/user/">Tài khoản của bạn</a></li>
+                            if (ViewBag.Account.Role == Permission.ADMIN)
+                            {
+                                <li><a href="/account/">Admin</a></li>
+                            }
+                         }
+
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </div>
     
 

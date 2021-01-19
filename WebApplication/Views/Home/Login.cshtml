@@ -1,4 +1,4 @@
-﻿@model Models.AccountBinding
+﻿@model Models.Account
 
 @{
     ViewBag.Title = "Đăng nhập";
@@ -22,12 +22,12 @@
     var values = @view.HtmlData;
 
     var dlg = new ApiForm("/home/login", fields, values);
-    ApiMessages = ["Dang nhap thanh cong", "Nguoi dung khong ton tai", "Sai mat khau"];
+    ApiMessages = ["Đăng nhập thành công", "Người dùng không tồn tại", "Sai mật khẩu"];
     //alert("Login.cshtml");
     
     responseOK = function (e) {
         console.debug(e.Value);
         window.location.href = "/home/index/" + e.Value.Id;
     }
-    //showMsg = function (s) { alert(s); }
+    showMsg = function (s) { alert(s); }
 </script>

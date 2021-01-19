@@ -50,11 +50,11 @@ namespace WepApp.Controllers
         public ActionResult Create()
         {
             System.Diagnostics.Debug.WriteLine("Account/Create");
-            return View(new Models.AccountBinding());
+            return View(new Models.Account());
         }
 
         [HttpPost]
-        public ActionResult Create(Models.AccountBinding account)
+        public ActionResult Create(Models.Account account)
         {
             System.Diagnostics.Debug.WriteLine("Account/Create(acc)");
             if (Collection.Contains(account.UserName))

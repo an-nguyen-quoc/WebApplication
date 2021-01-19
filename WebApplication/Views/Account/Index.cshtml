@@ -6,7 +6,9 @@
         DataSource = Model,
         Columns = new List<ColumnInfo>
 {
-            new ColumnInfo { Name = "Id",  Caption = "Tên người dùng", AllowNull = false, Type="text" },
+            new ColumnInfo { Name = "UserName",  Caption = "Tên người dùng", AllowNull = false, Type="text" },
+            new ColumnInfo { Name = "Email",  Caption = "Địa chỉ email", AllowNull = false, Type="text" },
+            new ColumnInfo { Name = "Name",  Caption = "Họ và tên", AllowNull = false, Type="text" },
             new ColumnInfo { Name = "Role",  Caption = "Role", Input = "select"},
             //new ColumnInfo { Name = "Password",  Caption = "Mật khẩu", Input = "none" },
         },
@@ -29,7 +31,7 @@
 <script>
     var fields = @view.HtmlColumns;
     var values = @view.HtmlData;
-
-    fields[1].options = ["USER", "MOD"];
-    var table = new ApiTable("/account/", fields, values, 7, "gear");
+    
+    fields[3].options = ["USER", "MOD"];
+    var table = new ApiTable("/account/", fields, values, 7, null );
 </script>

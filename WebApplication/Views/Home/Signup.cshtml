@@ -8,6 +8,8 @@
         Columns = new List<ColumnInfo>
         {
             new ColumnInfo { Name = "UserName",  Caption = "Tên người dùng", Type = "text", AllowNull = false },
+            new ColumnInfo { Name = "Email",  Caption = "Địa chỉ Email", Type = "text", AllowNull = false },
+            new ColumnInfo { Name = "Name",  Caption = "Họ và tên", Type = "text", AllowNull = false },
             new ColumnInfo { Name = "Password",  Caption = "Mật khẩu", Type = "password" },
             new ColumnInfo { Name = "ConfirmPassword",  Caption = "Nhập lại Mật khẩu", Type = "password" },
             new ColumnInfo { Name = "Role",  Caption = "Quyền", Type="text" , Disabled = true},
@@ -21,12 +23,14 @@
 <script>
     var fields = @view.HtmlColumns;
     var values = @view.HtmlData;
-    
+    //if (values[3] != values[4])
+    //    showMsg("Password khong giong nhau");
+    //console.debug(values);
     var dlg = new ApiForm("/home/signup", fields, values);
-    ApiMessages = ["Dang nhap thanh cong", "Nguoi dung khong ton tai", "Sai mat khau"];
+    ApiMessages = ["Đăng ký thành công", "Tên đăng nhập đã tồn tại", "Mật khẩu không khớp"];
 
     responseOK = function () {
         window.location.href = "/home/index/";
     }
-    //showMsg = function (s) { alert(s); }
+    showMsg = function (s) { alert(s); }
 </script>

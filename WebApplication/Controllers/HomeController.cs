@@ -33,7 +33,7 @@ namespace WepApp.Controllers
         public ActionResult Login()
         {
             System.Diagnostics.Debug.WriteLine("Home/Login");
-            return View(new Models.AccountBinding());
+            return View(new Models.Account());
         }
 
         public ActionResult Signup()
@@ -45,9 +45,9 @@ namespace WepApp.Controllers
         public ActionResult Signup(Models.UserCreate userCreate)
         {
             System.Diagnostics.Debug.WriteLine("Home/Signup");
-            var account = GetApiObject<Models.AccountBinding>();
+            var account = GetApiObject<Models.Account>();
             account.UserName = userCreate.UserName;
-            account.Password = userCreate.Password;
+            
             if (Collection.Contains(account.UserName))
             {
                 ViewBag.Message = "EXISTS";
@@ -55,6 +55,9 @@ namespace WepApp.Controllers
                 return GoFirst(); // Chu y doan nay
                 
             }
+            account.Name = userCreate.Name;
+            account.Email = userCreate.Email;
+            account.Password = userCreate.Password;
             account.Role = Permission.USER;
             Collection.Insert(account.UserName, account);
             System.Diagnostics.Debug.WriteLine("Home/Signup/Addacc");
@@ -67,17 +70,27 @@ namespace WepApp.Controllers
             System.Diagnostics.Debug.WriteLine("Home/ApiSignup");
             
             var userCreate = GetApiObject<Models.UserCreate>();
-            var account = new Models.AccountBinding();
+            var account = new Models.Account();
 
             account.UserName = userCreate.UserName;
-            account.Password = MD5Hash(userCreate.Password);
+            
             if (new AccountController().Collection.Contains(account.UserName))
             {
                 ViewBag.Message = "EXISTS";
                 System.Diagnostics.Debug.WriteLine("Home/Signup/Exist");
-                return GoFirst(); // Chu y doan nay
+                return Error(-1); 
+                 // Chu y doan nay
 
             }
+            if (!userCreate.Password.Equals(userCreate.ConfirmPassword))
+            {
+                ViewBag.Message = "PASSWORD NOT MATCHING";
+                System.Diagnostics.Debug.WriteLine("Home/Signup/PASS NOT MATCH");
+                return Error(-2);
+            }    
+            account.Password = MD5Hash(userCreate.Password);
+            account.Email = userCreate.Email;
+            account.Name = userCreate.Name;
             account.Role = Permission.USER;
             new AccountController().Collection.Insert(account.UserName, account);
             System.Diagnostics.Debug.WriteLine("Home/Signup/Addacc");
@@ -94,7 +107,7 @@ namespace WepApp.Controllers
         public object ApiLogin()
         {
             System.Diagnostics.Debug.WriteLine("Home/ApiLogin");
-            var acc = GetApiObject<Models.AccountBinding>();
+            var acc = GetApiObject<Models.Account>();
             var id = acc.UserName.ToLower();
             var e = new AccountController()
                 .Collection
@@ -107,7 +120,7 @@ namespace WepApp.Controllers
             var u = new Models.UserInfo
             {
                 Account = e,
-                Name = id,
+                Name = e.Name,
             };
 
             new UserController().Collection.Insert(token, u);
@@ -118,7 +131,7 @@ namespace WepApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(Models.AccountBinding account)
+        public ActionResult Login(Models.Account account)
         {
             System.Diagnostics.Debug.WriteLine("Home/Login(acc)");
             var e = new AccountController()

@@ -21,7 +21,7 @@ namespace WepApp
 
             // Create Admin account if not exists
             var acc = new Controllers.AccountController();
-            acc.InsertAccount(new Models.Account { Id = "admin", Password = "password", Role = Permission.ADMIN });
+            acc.InsertAccount(new Models.Account {  Id="admin", UserName = "admin", Password = "password", Email="email@test", Name="An", Role = Permission.ADMIN });
         }
         public static BsonData.DataBase MainDB => _mainDB;
         protected virtual BsonData.Collection GetCollectionCore(string name)

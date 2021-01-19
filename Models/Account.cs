@@ -8,14 +8,20 @@ namespace Models
 {
     public class Account : BsonData.Document
     {
-        public string Password { get; set; }
-        public Permission Role { get; set; }
-    }
-    public class AccountBinding : Account
-    {
+        
         public string UserName { get; set; }
 
+        public string Email { get; set; }
+        public string Name { get; set; }
+        public string Password { get; set; }
+        
+        public Permission Role { get; set; }
     }
+    //public class AccountBinding : Account
+    //{
+    //    public string UserName { get; set; }
+
+    //}
 
     public class UserCreate: BsonData.Document
     {
@@ -24,6 +30,8 @@ namespace Models
             Role = Permission.USER;
         }
         public string UserName { get; set; }
+        public string Email { get; set; }
+        public string Name { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
         public static Permission Role { get; set; }
