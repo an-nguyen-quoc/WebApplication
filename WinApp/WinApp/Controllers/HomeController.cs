@@ -26,9 +26,28 @@ namespace WinApp.Controllers
             var v = new { UserName = un, Password = pw };
             return Post(CreateApiContext(v), o => {
                 this.User = o.ToObject<Models.UserInfo>();
-                Redirect("device");
+                Redirect("account");
             });
         }
+
+        public ActionResult Signup()
+        {
+            return View();
+        }
+        public ActionResult Signup(Models.UserCreate userCreate)
+        {
+            WebRequest.ResponseError += r => {
+                Engine.Message(r.Message);
+            };
+
+            
+            return Post(CreateApiContext(userCreate), o => {
+                this.User = o.ToObject<Models.UserInfo>();
+                Redirect("account");
+            });
+        }
+
+
         public ActionResult Exit()
         {
             MqttController.Disconnect();

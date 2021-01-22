@@ -22,8 +22,10 @@ namespace WinApp.Views.Account
             this.listView1.View = View.Details;
 
             this.listView1.Columns.Add("User Name").Width = 200;
+            this.listView1.Columns.Add("Name").Width = 250;
             this.listView1.Columns.Add("Role").Width = 100;
-            this.listView1.Columns.Add("Password").Width = 250;
+            this.listView1.Columns.Add("Email").Width = 250;
+
         }
 
         object _dataSource;
@@ -38,8 +40,9 @@ namespace WinApp.Views.Account
                 foreach (var e in (IEnumerable<Models.Account>)value)
                 {
                     var item = this.listView1.Items.Add(e.Id);
+                    item.SubItems.Add(e.Name);
                     item.SubItems.Add(e.Role.ToString());
-                    item.SubItems.Add(e.Password);
+                    item.SubItems.Add(e.Email);
                     item.Tag = e;
                 }
             }
@@ -55,10 +58,13 @@ namespace WinApp.Views.Account
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            var frm = new FormEdit() { 
+            var frm = new FormEdit() {
                 Tag = new Models.Account()
+                               
             };
+            frm.CreateState = true;
             frm.ShowDialog();
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -67,6 +73,7 @@ namespace WinApp.Views.Account
             {
                 Tag = SelectedItem
             };
+            frm.CreateState = true;
             frm.ShowDialog();
         }
 

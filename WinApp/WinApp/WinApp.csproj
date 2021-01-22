@@ -55,6 +55,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DeviceController.cs" />
+    <Compile Include="Controllers\Env.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MqttController.cs" />
     <Compile Include="Controllers\WebController.cs" />
@@ -150,6 +151,10 @@
       <Project>{d1fed0f1-1f3c-4adf-86fc-3de6530989a0}</Project>
       <Name>VstJson</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\vst-form.js" />
+    <Content Include="Scripts\vst.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Models;
+using Newtonsoft.Json;
+//using System.Web.Script.Serialization;
 
 namespace WepApp.Controllers
 {
@@ -14,6 +17,17 @@ namespace WepApp.Controllers
         {
             
             return View(Collection.ToList<Models.Device>());
+        }
+
+        [HttpGet]
+        [Route("ApiIndex")]
+        public async System.Threading.Tasks.Task<string> ApiIndexAsync()
+        {
+           
+            System.Diagnostics.Debug.WriteLine("Device/ApiIndex");
+            var danh_sach = Collection.ToList<Models.Device>();
+            var json = JsonConvert.SerializeObject(danh_sach, Formatting.Indented);
+            return await Task.FromResult(json);
         }
         Models.DeviceStatus CreateSignals()
         {

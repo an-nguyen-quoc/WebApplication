@@ -19,7 +19,7 @@ namespace WinApp
         public Form1()
         {
             InitializeComponent();
-
+            MQTT.Connect();
             Engine.ValidateActionResult = result =>
             {
                 var form = result.View as Views.IPopup;

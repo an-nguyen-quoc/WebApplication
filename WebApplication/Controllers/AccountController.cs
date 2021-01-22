@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Models;
-
+using Newtonsoft.Json;
 
 namespace WepApp.Controllers
 {
@@ -23,6 +24,18 @@ namespace WepApp.Controllers
             System.Diagnostics.Debug.WriteLine("Account/Index");
             return View(Collection.ToList<Models.Account>());
         }
+
+        [HttpGet]
+        [Route("ApiIndex")]
+        public async System.Threading.Tasks.Task<string> ApiIndexAsync()
+        {
+
+            System.Diagnostics.Debug.WriteLine("Device/ApiIndex");
+            var danh_sach = Collection.ToList<Models.Account>();
+            var json = JsonConvert.SerializeObject(danh_sach, Formatting.Indented);
+            return await Task.FromResult(json);
+        }
+
         public object InsertAccount(Models.Account acc)
         {
             System.Diagnostics.Debug.WriteLine("Account/InsertAccount(acc)");

@@ -65,15 +65,15 @@ namespace WepApp.Controllers
         }
 
 
-        public object ApiSignup()
+        public object ApiSignup(Models.UserCreate userCreate)
         {
             System.Diagnostics.Debug.WriteLine("Home/ApiSignup");
             
-            var userCreate = GetApiObject<Models.UserCreate>();
+            //var userCreate = GetApiObject<Models.UserCreate>();
             var account = new Models.Account();
 
             account.UserName = userCreate.UserName;
-            
+            System.Diagnostics.Debug.WriteLine(userCreate.Email);
             if (new AccountController().Collection.Contains(account.UserName))
             {
                 ViewBag.Message = "EXISTS";

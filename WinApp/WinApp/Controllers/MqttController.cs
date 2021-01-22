@@ -20,7 +20,7 @@ namespace WinApp.Controllers
 
         public static void Connect()
         {
-            Console.Write("Connect to " + Host + "...");
+            System.Diagnostics.Debug.WriteLine("Connect to " + Host + "...");
             if (_broker == null || _broker.IsConnected == false)
             {
                 try
@@ -36,6 +36,7 @@ namespace WinApp.Controllers
                     if (_broker.IsConnected)
                     {
                         Connected?.Invoke(_broker);
+                        System.Diagnostics.Debug.WriteLine("Ket noi thanh cong");
                     }    
                 }
                 catch (Exception e)
