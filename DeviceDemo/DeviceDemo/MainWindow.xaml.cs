@@ -1,25 +1,32 @@
-﻿using System;
+﻿using DeviceDemo.Views;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using MQTT = WinApp.Controllers.MqttController;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using MQTT = DeviceDemo.Controllers.MqttController;
 
-namespace WinApp
+namespace DeviceDemo
 {
-    public partial class Form1 : Form
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
     {
-        delegate void UpdateMainContent(Views.IWindowView view);
-
-        Views.IWindowView _currentView;
-        public Form1()
+        IWindowView _currentView;
+        public MainWindow()
         {
             InitializeComponent();
-            //MQTT.Connect();
             Engine.ValidateActionResult = result =>
             {
                 var form = result.View as Views.IPopup;
@@ -28,8 +35,9 @@ namespace WinApp
                     form.Show();
                     return;
                 }
-                var callback = new UpdateMainContent(SetMainContent);
-                this.BeginInvoke(callback, new object[] { result.View as Views.IWindowView });
+                this.Dispatcher.InvokeAsync(() => {
+                    SetMainContent(result.View as IWindowView);
+                });
             };
         }
 
@@ -40,30 +48,27 @@ namespace WinApp
             var content = view.GetMainContent();
             if (content != null)
             {
-                panel1.Controls.Add(content);
-
+                panel1.Child = content;
                 if (_currentView != null)
                 {
                     if (_currentView is IDisposable)
                     {
                         ((IDisposable)(_currentView)).Dispose();
                     }
-                    panel1.Controls.RemoveAt(0);
                 }
                 _currentView = view;
             }
         }
-        protected override void OnLoad(EventArgs e)
+        protected override void OnContentRendered(EventArgs e)
         {
-            base.OnLoad(e);
-
             MQTT.Connected += (br) => {
-                led1.State = 1;
+                
             };
-            
-            Engine.Execute("home/login");
-        }
 
+            //Engine.Execute("device/demo/LTNC0005");
+            Engine.Execute("home");
+            base.OnContentRendered(e);
+        }
         protected override void OnClosing(CancelEventArgs e)
         {
             Engine.Execute("home/exit");

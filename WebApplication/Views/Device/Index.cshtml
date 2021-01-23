@@ -1,14 +1,14 @@
 ﻿@{
-    ViewBag.Title = "Devices";
+                ViewBag.Title = "Devices";
 
-    var view = new VstViewFormat
-    {
-        DataSource = Model,
-        Columns = new List<ColumnInfo>
+                var view = new VstViewFormat
+                {
+                    DataSource = Model,
+                    Columns = new List<ColumnInfo>
 {
             new ColumnInfo { Name = "Id", ClassName = "lg-12", Caption = "Mã thiết bị" , Type="text"},
             new ColumnInfo { Name = "Name", ClassName = "lg-12", Caption = "Tên thiết bị", Type="text" },
-            //new ColumnInfo { Name = "Status['LED1']", ClassName = "lg-12", Caption = "Trạng thái", Type="text" },
+            new ColumnInfo { Name = "Status", ClassName = "lg-12", Caption = "Trạng thái", Type="text"},
         },
       
     };

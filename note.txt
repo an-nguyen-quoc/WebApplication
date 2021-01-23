@@ -1,0 +1,3 @@
+﻿chú ý đến việc gọi api từ win app lên ,
+đặc biệt là account view và device view
+đã test được post man

@@ -130,6 +130,35 @@ namespace WepApp.Controllers
             return Success(u);
         }
 
+        public object ApiLoginApp(string username, string password)
+        {
+            System.Diagnostics.Debug.WriteLine("Home/ApiLogin");
+            //var acc = GetApiObject<Models.Account>();
+            var acc = new Models.Account();
+            acc.UserName = username;
+            acc.Password = password;
+            var id = acc.UserName.ToLower();
+            var e = new AccountController()
+                .Collection
+                .FindById<Models.Account>(id);
+
+            if (e == null) { return Error(-1); }
+            if (e.Password != MD5Hash(acc.Password)) { return Error(-2); }
+
+            var token = MD5Hash(id + DateTime.Now);
+            var u = new Models.UserInfo
+            {
+                Account = e,
+                Name = e.Name,
+            };
+
+            new UserController().Collection.Insert(token, u);
+
+            u.Id = token;
+            System.Diagnostics.Debug.WriteLine("Home/ApiLogin/Success");
+            return Success(u);
+        }
+
         [HttpPost]
         public ActionResult Login(Models.Account account)
         {

@@ -15,12 +15,32 @@ namespace WepApp.Controllers
         // GET: Device
         public ActionResult Index()
         {
-            
-            return View(Collection.ToList<Models.Device>());
+            var db = Collection;
+            var lst = db.ToList<Models.Device>();
+            if (lst.Count == 0)
+            {
+                var signals = CreateSignals();
+                //for (int i = 0; i < 4; i++)
+                //{
+                //    var key = "LED" + i;
+                //    signals.Add(key, 0);
+                //}
+                for (int i = 0; i < 10; i++)
+                {
+                    string id = string.Format("LTNC{0:0000}", i + 1);
+                    var device = new Models.Device { Name = id, Status = signals };
+
+                    db.Insert(id, device);
+                    device.Id = id;
+                    lst.Add(device);
+                }
+            }
+            return View(lst);
+            //return View(Collection.ToList<Models.Device>());
         }
 
         [HttpGet]
-        [Route("ApiIndex")]
+        [Route("ApiIndexAsync")]
         public async System.Threading.Tasks.Task<string> ApiIndexAsync()
         {
            
@@ -29,6 +49,48 @@ namespace WepApp.Controllers
             var json = JsonConvert.SerializeObject(danh_sach, Formatting.Indented);
             return await Task.FromResult(json);
         }
+
+        [HttpGet]
+        [Route("GetDeviceAsync")]
+        public async System.Threading.Tasks.Task<string> GetDeviceAsync(string id)
+        {
+
+            System.Diagnostics.Debug.WriteLine("Device/GetDevice");
+            var danh_sach = Collection.FindById<Models.Device>(id);
+            var json = JsonConvert.SerializeObject(danh_sach, Formatting.Indented);
+            return await Task.FromResult(json);
+        }
+
+        [HttpPost]
+        [Route("UpdateStatus")]
+        public async System.Threading.Tasks.Task<string> UpdateStatusAsync(string id, string status)
+        {
+
+            System.Diagnostics.Debug.WriteLine("Device/UpdateStatus");
+            var danh_sach = Collection.FindById<Models.Device>(id);
+            var json = "";
+            if (danh_sach == null)
+                json = "Khong ton tai thiet bi";
+            //var status = GetApiObject<DeviceStatus>();
+            
+
+            try
+            {
+                //var _deviceView = new DeviceViewModel();
+                //_deviceView.UpdateStatus(status);
+                //danh_sach.Status = _deviceView.Status;
+                danh_sach.Status = (DeviceStatus)status;
+                Collection.Update(danh_sach.Id, danh_sach);
+                json = "Thay doi thanh cong";
+            }
+            catch(Exception e)
+            {
+                json = "Khong the thay doi trang thai";
+            }
+
+            return await Task.FromResult(json);
+        }
+
         Models.DeviceStatus CreateSignals()
         {
             var signals = new Models.DeviceStatus();

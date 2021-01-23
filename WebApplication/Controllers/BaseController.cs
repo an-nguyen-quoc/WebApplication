@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using Models;
+using System.Threading.Tasks;
 
 namespace WepApp
 {
@@ -257,6 +258,29 @@ namespace WepApp
         public virtual object ApiSelect()
         {
             return Success(Collection.ToList());
+        }
+
+        public async Task<string> PostAsync(string URL, object contents)
+        {
+
+            var request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(URL);
+
+
+            var data = Encoding.ASCII.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(contents));
+
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentLength = data.Length;
+
+            using (var stream = request.GetRequestStream())
+            {
+                stream.Write(data, 0, data.Length);
+            }
+
+            var response = (System.Net.HttpWebResponse)await request.GetResponseAsync();
+
+            var responseString = new System.IO.StreamReader(response.GetResponseStream()).ReadToEnd();
+            return responseString;
         }
     }
 }

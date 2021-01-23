@@ -6,6 +6,8 @@ using System.Mvc;
 using System.Text;
 using System.Threading.Tasks;
 using DEV = Models.DeviceViewModel;
+using Newtonsoft;
+using Newtonsoft.Json;
 
 namespace WinApp.Controllers
 {
@@ -18,21 +20,28 @@ namespace WinApp.Controllers
 
         public ActionResult Default()
         {
+
+
             if (_devices == null)
             {
-                return Post(CreateApiContext(new { }, null, "device/select"), o => {
-                    _devices = o.ToObject<List<DEV>>();
+                System.Diagnostics.Debug.WriteLine("Device null");
+                string json = Env.GetAsync(Env.getDeviceAPI).Result;
+                //var _object = 
+                _devices = JsonConvert.DeserializeObject<List<DEV>>(json);
+                System.Diagnostics.Debug.WriteLine(json);
 
-                    MqttController.Connected += (broker) => { 
-                        foreach (var device in _devices)
-                        {
-                            broker.Subscribe(new string[] { "status/" + device.Id }, new byte[] { 0 });
-                        }
-                    };
-                    Engine.CreateThread(MqttController.Connect);
+                //MqttController.Connect();
+                MqttController.Connected += (broker) => {
+                    foreach (var device in _devices)
+                    {
+                        System.Diagnostics.Debug.WriteLine("get from MQTT");
+                        broker.Subscribe(new string[] { "status/" + device.Id }, new byte[] { 0 });
+                    }
+                };
+                Engine.CreateThread(MqttController.Connect);
 
-                    GoFirst();
-                });
+                GoFirst();
+
             }
             return View(_devices);
         }

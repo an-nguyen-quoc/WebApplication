@@ -1,0 +1,124 @@
+﻿Các API cần cho App di động
+1.  Đăng nhập:
+https://localhost:44395/home/apiloginapp
+	Gửi lên hai tham số là "username" và "password". (Đọc cách gửi HTTP Post Request có parameter)
+Ví dụ: username=admin&password=password
+Kết quả trả về:
++ String có dạng: { Code = 0, Value = Models.UserInfo } 
+	Code = 0, => đúng mật khẩu và password => sang màn hình điều khiển thiết bị.
++ { Code = -2 } => Sai mật khẩu
++ { Code = -1 } => Không tồn tại người dùng
+
+2. Lấy trạng thái của thiết bị:
+
+ - Tớ có một API lấy được trạng thái của tất cả các thiết bị:https://localhost:44395/Device/ApiIndexAsync
+- Kết qủa trả vê:
+		[
+			{
+			"Name": "LTNC0003",
+			"Status": {
+			"LED1": 0,
+			"LED2": 1,
+			"LED3": 0,
+			"LED4": 1
+			},
+			"Id": "LTNC0003"
+			},
+			{
+			"Name": "LTNC0004",
+			"Status": {
+			"LED0": 0,
+			"LED1": 0,
+			"LED2": 0,
+			"LED3": 0
+			},
+			"Id": "LTNC0004"
+			},
+			{
+			"Name": "LTNC0005",
+			"Status": {
+			"LED0": 0,
+			"LED1": 0,
+			"LED2": 0,
+			"LED3": 0
+			},
+			"Id": "LTNC0005"
+			},
+			{
+			"Name": "LTNC0006",
+			"Status": {
+			"LED0": 0,
+			"LED1": 0,
+			"LED2": 0,
+			"LED3": 0
+			},
+			"Id": "LTNC0006"
+			},
+			{
+			"Name": "LTNC0007",
+			"Status": {
+			"LED0": 0,
+			"LED1": 0,
+			"LED2": 0,
+			"LED3": 0
+			},
+			"Id": "LTNC0007"
+			},
+			{
+			"Name": "LTNC0008",
+			"Status": {
+			"LED0": 0,
+			"LED1": 0,
+			"LED2": 0,
+			"LED3": 0
+			},
+			"Id": "LTNC0008"
+			},
+			{
+			"Name": "LTNC0009",
+			"Status": {
+			"LED0": 0,
+			"LED1": 0,
+			"LED2": 0,
+			"LED3": 0
+			},
+			"Id": "LTNC0009"
+			},
+			{
+			"Name": "LTNC0010",
+			"Status": {
+			"LED0": 0,
+			"LED1": 0,
+			"LED2": 0,
+			"LED3": 0
+			},
+			"Id": "LTNC0010"
+			}
+		]
+
+=> Sẽ lấy được danh sách các thiết bị.
+
+3. Lấy thông tin của một thiết bị (đã biết Id)
+	https://localhost:44395/Device/GetDeviceAsync
+	HTTP - GET, tham số là Id=...
+	Ví dụ: https://localhost:44395/Device/GetDeviceAsync?Id=LTNC0003
+	Kết quả trả về: 
+	{
+	"Name": "LTNC0003",
+	"Status": {
+	"LED1": 0,
+	"LED2": 1,
+	"LED3": 0,
+	"LED4": 1
+	},
+	"Id": "LTNC0003"
+	}
+	
+4. Cập nhật trạng thái:
+
+HTTP - POST 
+Địa chỉ: https://localhost:44395/Device/UpdateStatusAsync
+Tham số: id=LTNC0005&status={LED0 : 0, LED1 : 1, LED2 : 1, LED3 : 1}
+	id là mã thiết bị, status là string biểu thị thiết bị.
+	
+Kết quả trả về: Thành công, không tìm thấy, hoặc thất bại.	

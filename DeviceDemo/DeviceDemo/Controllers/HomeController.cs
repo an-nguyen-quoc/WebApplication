@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Mvc;
 
-namespace WinApp.Controllers
+namespace DeviceDemo.Controllers
 {
     class HomeController : BaseController
     {
@@ -20,7 +20,7 @@ namespace WinApp.Controllers
         public ActionResult Login(string un, string pw)
         {
             WebRequest.ResponseError += r => {
-                Engine.Message(r.Message);
+                
             };
 
             var v = new { UserName = un, Password = pw };
@@ -29,25 +29,6 @@ namespace WinApp.Controllers
                 Redirect("device");
             });
         }
-
-        public ActionResult Signup()
-        {
-            return View();
-        }
-        public ActionResult Signup(Models.UserCreate userCreate)
-        {
-            WebRequest.ResponseError += r => {
-                Engine.Message(r.Message);
-            };
-
-            
-            return Post(CreateApiContext(userCreate), o => {
-                this.User = o.ToObject<Models.UserInfo>();
-                Redirect("account");
-            });
-        }
-
-
         public ActionResult Exit()
         {
             MqttController.Disconnect();
