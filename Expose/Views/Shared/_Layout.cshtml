@@ -1,0 +1,81 @@
+﻿@using Models;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <title>@ViewBag.Title</title>
+    @*@Styles.Render("~/Content/css")*@
+    @Scripts.Render("~/bundles/modernizr")
+    @*<link rel="stylesheet" href="~/Content/bootstrap.css" />*@
+    @*<link rel="stylesheet" href="~/Content/Site.css?v=1.0" />*@
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">*@
+    <script src="~/Scripts/vst-form.js?v=1.0.2.1"></script>
+    <script src="~/Scripts/vst.js?v=1.0.4.1"></script>
+    <link rel="stylesheet" href="~/Content/assets/css/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="~/Content/assets/css/main.css" />
+    <link rel="stylesheet" href="~/Content/assets/css/mystyle.css" />
+</head>
+<body class="is-preload">
+    <div id="wrapper">
+        <div id="main">
+            <div class="inner">
+                <header id="header">
+                    <a href="/" class="logo"><strong>Lập trình Nâng cao</strong> by ALA</a>
+                    @if (ViewBag.Account != null)
+                    {
+                        <ul class="icons">
+                            <li><a href="/home/logout" class="icon brands"><button> Đăng xuất</button> </a></li>
+                        </ul>
+                    }
+                    else
+                    {
+                <ul class="icons">
+                    <li><a href="/home/login" class="icon brands"> <button> Đăng nhập</button> </a></li>
+                    <li><a href="/home/signup" class="icon brands"> <button> Đăng ký </button> </a></li>
+                </ul>
+                    }
+                </header>
+                <section id="main-section">
+                    @RenderBody()
+                </section>
+            </div>
+            
+        </div>
+        <div id="sidebar">
+            <div class="inner">
+                <nav id="menu">
+                    <header class="major">
+                        <h2>Menu</h2>
+                    </header>
+                    <ul>
+                        <li><a href="/">Trang chủ</a></li>
+                        @if (ViewBag.Account != null)
+                        {
+                            <li><a href="/device/">Thiết bị</a></li>
+                            <li><a href="/user/">Tài khoản của bạn</a></li>
+                            if (ViewBag.Account.Role == Permission.ADMIN)
+                            {
+                                <li><a href="/account/">Admin</a></li>
+                            }
+                         }
+
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="~/Content/assets/js/jquery.min.js"></script>
+    <script src="~/Content/assets/js/browser.min.js"></script>
+    <script src="~/Content/assets/js/breakpoints.min.js"></script>
+    <script src="~/Content/assets/js/util.js"></script>
+    <script src="~/Content/assets/js/main.js"></script>
+
+    @*@Scripts.Render("~/bundles/jquery")*@
+   @* @Scripts.Render("~/bundles/bootstrap")*@
+    @RenderSection("scripts", required: false)
+</body>
+</html>

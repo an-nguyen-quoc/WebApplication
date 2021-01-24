@@ -16,20 +16,28 @@ namespace DeviceDemo.Controllers
         static DEV _selected;
         static void Subcribe()
         {
+            //if (!MqttController.IsConnected)
+             //   MqttController.Connect();
             if (MqttController.IsConnected)
             {
+
                 MqttController.Broker.Subscribe(
-                    new string[] { "control/" + _selected.Id }, 
+                    new string[] { "controller/" + _selected.Id }, 
                     new byte[] { 0 });
+
+                System.Diagnostics.Debug.WriteLine(_selected.Id);
             }
         }
         static void Publish(int value)
         {
             if (MqttController.IsConnected)
             {
+
                 MqttController.Broker.Publish(
                     "status/" + _selected.Id, 
                     Encoding.ASCII.GetBytes("{\"value\":" + value + "}"));
+                System.Diagnostics.Debug.WriteLine(_selected.Id);
+                System.Diagnostics.Debug.WriteLine(value);
             }
         }
         public ActionResult Demo(string id)
@@ -43,16 +51,27 @@ namespace DeviceDemo.Controllers
             for (int i = 0; i < 4; i++)
                 s.Add("LED" + i, 0);
 
+            Subcribe();
+
+            
             _selected = new DEV { Id = id, Status = s };
             _selected.Changed += (d, v) => {
                 Publish(v);
             };
-            MqttController.Connected += br => {
-                Subcribe();
-            };
+            
             Engine.CreateThread(MqttController.Connect);
 
             return View(_selected);
         }
+
+       // void SetValue(int value)
+        //{
+          //  int i = 0;
+        //    foreach (var p in _leds)
+            //{
+              //  p.Value.State = value & (1 << i++);
+            //}
+          //  Model.UpdateStatus(value);
+       // }
     }
 }

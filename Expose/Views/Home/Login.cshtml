@@ -1,0 +1,34 @@
+﻿@model Models.Account
+
+@{
+    ViewBag.Title = "Đăng nhập";
+    var view = new VstViewFormat
+    {
+        DataSource = Model,
+        Columns = new List<ColumnInfo>
+        {
+            new ColumnInfo { Name = "UserName",  Caption = "Tên người dùng", Type ="text", AllowNull = false },
+            new ColumnInfo { Name = "Password",  Caption = "Mật khẩu", Type = "password" },
+            //new ColumnInfo { Name = "KeepLogin",  Caption = "Duy trì đăng nhập", Type = "checkbox" },
+        },
+    };
+}
+
+<h2>Login</h2>
+<div id="main-content"></div>
+
+<script>
+    var fields = @view.HtmlColumns;
+    var values = @view.HtmlData;
+    
+
+    var dlg = new ApiForm("/home/login", fields, values);
+    ApiMessages = ["Đăng nhập thành công", "Người dùng không tồn tại", "Sai mật khẩu"];
+    //alert("Login.cshtml");
+    
+    responseOK = function (e) {
+        console.debug(e.Value);
+        window.location.href = "/home/index/" + e.Value.Id;
+    }
+    showMsg = function (s) { alert(s); }
+</script>

@@ -168,7 +168,7 @@ function ApiTable(url, cols, rows, update, actions) {
             if (!c) { col.caption = c = n; }
 
             //var td = head.child(new tag(i).addClass(n).html(c));
-            var td = head.child(new tag("td").html(c));
+            var td = head.child(new tag("td").html(c).id("column" + i));
             columns[n] = col;
         }
         var act = head.child(new tag("td").addClass("action"));

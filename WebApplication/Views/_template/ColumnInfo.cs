@@ -41,7 +41,9 @@ namespace System.Web
         public string ToVstFormat()
         {
             var lst = new JsonObject();
+            
             lst.Add("tag", Input);
+            lst.Add("id", iD);
             lst.Add("type", Type);
             lst.Add("class", ClassName);//Note cls
             lst.Add("name", Name);

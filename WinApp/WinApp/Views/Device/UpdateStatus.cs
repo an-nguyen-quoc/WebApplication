@@ -25,17 +25,23 @@ namespace WinApp.Views.Device
 
         static void Publish(DeviceViewModel device,  int value)
         {
+            //if (!MqttController.IsConnected)
+             //   MqttController.Connect();
             if (MqttController.IsConnected)
             {
                 MqttController.Broker.Publish(
-                        "control/" + device.Id,
+                        "controller/" + device.Id,
                         Encoding.ASCII.GetBytes("{\"value\":" + value + "}"));
+                System.Diagnostics.Debug.WriteLine(device.Id);
+                System.Diagnostics.Debug.WriteLine(value);
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            int value = Convert.ToInt32(this.textBox2.Text);
+            value = value & 15;
+            Publish(selectedDevice, value);
         }
     }
 }

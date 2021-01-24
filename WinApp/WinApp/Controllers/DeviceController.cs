@@ -38,7 +38,7 @@ namespace WinApp.Controllers
                         System.Diagnostics.Debug.WriteLine("get from MQTT");
                         broker.Subscribe(new string[] { "status/" + device.Id }, new byte[] { 0 });
                         _selected = device;
-                        
+                        System.Diagnostics.Debug.WriteLine(_selected.Id);
                         }
                 };
                 Engine.CreateThread(MqttController.Connect);
@@ -54,8 +54,9 @@ namespace WinApp.Controllers
             if (MqttController.IsConnected)
             {
                 MqttController.Broker.Publish(
-                        "control/" + _selected.Id,
+                        "controller/" + _selected.Id,
                         Encoding.ASCII.GetBytes("{\"value\":" + value + "}"));
+                System.Diagnostics.Debug.WriteLine(_selected.Id);
             }
         }
 

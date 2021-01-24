@@ -16,6 +16,7 @@ namespace Vst
         public bool AllowNull { get; set; }
         public object Value { get; set; }
 
+        public string iD { get; set; }
         public string FixValue { get; set; }
         public string Type { get; set; }
         public string FormatString { get; set; }

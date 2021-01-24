@@ -8,7 +8,7 @@
 {
             new ColumnInfo { Name = "Id", ClassName = "lg-12", Caption = "Mã thiết bị" , Type="text"},
             new ColumnInfo { Name = "Name", ClassName = "lg-12", Caption = "Tên thiết bị", Type="text" },
-            new ColumnInfo { Name = "Status", ClassName = "lg-12", Caption = "Trạng thái", Type="text"},
+            new ColumnInfo { Name = "Status", ClassName = "status-class", Caption = "Trạng thái", Type="text", iD = "statusID" },
         },
       
     };
@@ -34,12 +34,36 @@
 
     var table = new ApiTable("/device/", fields, values, 7, null);
 
-    var table = document.getElementByClassName("progress-table");
-    var Rows = table.getElementByTagName("tr");
+    var table = document.getElementsByClassName("progress-table").firstElementChild;
+    var Rows = document.getElementsByTagName("tr");
     var RowsCount = Rows.length;
-
-    for (int i = 1; i < RowsCount; i++)
+    var i = 1;
+    for (i = 1; i < RowsCount; i++)
     {
+        var content = table.rows[i].cells.item(2).innerHTML;
+        console.log(content);
+        console.log(content[8]);
+        console.log(content[18]);
+        console.log(content[28]);
+        console.log(content[38]);
+        if (content[8] == '0')
+            table.rows[i].cells[2].innerHTML = "<label class='switch'>< input type = 'checkbox' checked><span class='slider round'></span></label >"
+        else
+            table.rows[i].cells[2].innerHTML = "<label class='switch'>< input type = 'checkbox' ><span class='slider round'></span></label >"
 
+        if (content[18] == '0')
+            table.rows[i].cells[2].innerHTML += "<label class='switch'>< input type = 'checkbox' checked><span class='slider round'></span></label >"
+        else
+            table.rows[i].cells[2].innerHTML += "<label class='switch'>< input type = 'checkbox' ><span class='slider round'></span></label >"
+
+        if (content[28] == '0')
+            table.rows[i].cells[2].innerHTML += "<label class='switch'>< input type = 'checkbox' checked><span class='slider round'></span></label >"
+        else
+            table.rows[i].cells[2].innerHTML += "<label class='switch'>< input type = 'checkbox' ><span class='slider round'></span></label >"
+
+        if (content[38] == '0')
+            table.rows[i].cells[2].innerHTML += "<label class='switch'>< input type = 'checkbox' checked><span class='slider round'></span></label >"
+        else
+            table.rows[i].cells[2].innerHTML += "<label class='switch'>< input type = 'checkbox' ><span class='slider round'></span></label >"
     }
 </script>

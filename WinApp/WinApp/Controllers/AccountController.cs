@@ -19,7 +19,7 @@ namespace WinApp.Controllers
         {
             System.Diagnostics.Debug.WriteLine("Ctrl/Acc/Default");
            var db = Collection;
-            var json = GetAsync("https://localhost:44395/Account/ApiIndexAsync").Result;
+            var json = GetAsync("http://localhost:44395/Account/ApiIndexAsync").Result;
             System.Diagnostics.Debug.WriteLine(json);
             if (json.Equals(null))
             {

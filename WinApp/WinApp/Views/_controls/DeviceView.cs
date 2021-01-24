@@ -44,6 +44,7 @@ namespace WinApp.Views
                     var led = (Led)this.Controls[p.Key];
                     led.State = p.Value;
                 }
+                //Publish(v);
             };
             
             

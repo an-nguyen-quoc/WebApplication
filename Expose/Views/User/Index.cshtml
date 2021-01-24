@@ -1,0 +1,37 @@
+﻿@using Models;
+@{
+    ViewBag.Title = "Chi tiết tài khoản";
+    var view = new VstViewFormat
+    {
+        DataSource = Model,
+        Columns = new List<ColumnInfo>
+{
+            new ColumnInfo { Name = "UserName",  Caption = "Tên người dùng", AllowNull = false, Type="text" },
+            new ColumnInfo { Name = "Email",  Caption = "Địa chỉ email", AllowNull = false, Type="text" },
+            new ColumnInfo { Name = "Name",  Caption = "Họ và tên", AllowNull = false, Type="text" },
+            new ColumnInfo { Name = "Role",  Caption = "Role", Type = "text", Disabled=true},
+            //new ColumnInfo { Name = "Password",  Caption = "Mật khẩu", Input = "none" },
+        },
+    };
+}
+
+<h2>@ViewBag.Title - Test</h2>
+@*<style>
+        .Id {
+            width: 200px;
+            background-color: whitesmoke;
+        }
+        .Role {
+            width: 80px;
+        }
+    </style>*@
+
+<div id="main-content"></div>
+
+<script>
+    var fields = @view.HtmlColumns;
+    var values = @view.HtmlData;
+
+    //fields[3].options = ["USER", "MOD"];
+    var table = new ApiTable("/account/", fields, values, 7, null );
+</script>

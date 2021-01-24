@@ -1,0 +1,45 @@
+﻿@{
+                ViewBag.Title = "Devices";
+
+                var view = new VstViewFormat
+                {
+                    DataSource = Model,
+                    Columns = new List<ColumnInfo>
+{
+            new ColumnInfo { Name = "Id", ClassName = "lg-12", Caption = "Mã thiết bị" , Type="text"},
+            new ColumnInfo { Name = "Name", ClassName = "lg-12", Caption = "Tên thiết bị", Type="text" },
+            new ColumnInfo { Name = "Status", ClassName = "lg-12", Caption = "Trạng thái", Type="text"},
+        },
+      
+    };
+}
+
+<h2>@ViewBag.Title - Test</h2>
+@*<style>
+        .Id {
+            width: 200px;
+            background-color: whitesmoke;
+        }
+
+        .Name {
+            width: 400px;
+        }
+    </style>*@
+
+<div id="main-content"></div>
+
+<script>
+    var fields = @view.HtmlColumns;
+    var values = @view.HtmlData;
+
+    var table = new ApiTable("/device/", fields, values, 7, null);
+
+    var table = document.getElementByClassName("progress-table");
+    var Rows = table.getElementByTagName("tr");
+    var RowsCount = Rows.length;
+
+    for (int i = 1; i < RowsCount; i++)
+    {
+
+    }
+</script>

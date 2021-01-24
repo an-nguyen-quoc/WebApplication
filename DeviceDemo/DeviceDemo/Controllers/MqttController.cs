@@ -29,8 +29,10 @@ namespace DeviceDemo.Controllers
                     _broker = new MqttClient(Host, Port, false, MqttSslProtocols.None, null, null);
                     _broker.MqttMsgPublishReceived += (s, e) =>
                     {
+                        System.Diagnostics.Debug.WriteLine(e.Message);
                         var o = Newtonsoft.Json.Linq.JObject
                             .Parse(Encoding.ASCII.GetString(e.Message));
+                         
                         Engine.Execute("device/" + e.Topic, o);
                     };
                     _broker.Connect(Guid.NewGuid().ToString());
