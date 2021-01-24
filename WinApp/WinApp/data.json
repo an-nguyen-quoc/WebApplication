@@ -1,0 +1,17 @@
+﻿[
+  {
+    "Name": "Home",
+    "URL": "device",
+    "Menuitems": null
+  },
+  {
+    "Name": "Account",
+    "URL": "account",
+    "Menuitems": null
+  },
+  {
+    "Name": "Device",
+    "URL": "device",
+    "Menuitems": null
+  }
+]

@@ -33,4 +33,13 @@
     var values = @view.HtmlData;
 
     var table = new ApiTable("/device/", fields, values, 7, null);
+
+    var table = document.getElementByClassName("progress-table");
+    var Rows = table.getElementByTagName("tr");
+    var RowsCount = Rows.length;
+
+    for (int i = 1; i < RowsCount; i++)
+    {
+
+    }
 </script>

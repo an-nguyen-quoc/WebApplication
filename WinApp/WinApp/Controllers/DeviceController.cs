@@ -15,6 +15,7 @@ namespace WinApp.Controllers
 
     class DeviceController : BaseController
     {
+        static DEV _selected;
         static List<DEV> _devices;
         public static List<DEV> Devices => _devices;
 
@@ -36,7 +37,9 @@ namespace WinApp.Controllers
                     {
                         System.Diagnostics.Debug.WriteLine("get from MQTT");
                         broker.Subscribe(new string[] { "status/" + device.Id }, new byte[] { 0 });
-                    }
+                        _selected = device;
+                        
+                        }
                 };
                 Engine.CreateThread(MqttController.Connect);
 
@@ -46,7 +49,17 @@ namespace WinApp.Controllers
             return View(_devices);
         }
 
-        public ActionResult Status(string id, JObject o)
+        static void Publish(int value)
+        {
+            if (MqttController.IsConnected)
+            {
+                MqttController.Broker.Publish(
+                        "control/" + _selected.Id,
+                        Encoding.ASCII.GetBytes("{\"value\":" + value + "}"));
+            }
+        }
+
+                public ActionResult Status(string id, JObject o)
         {
             foreach (var device in _devices) { 
                 if (device.Id == id)

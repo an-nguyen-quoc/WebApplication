@@ -130,13 +130,13 @@ namespace WepApp.Controllers
             return Success(u);
         }
 
-        public object ApiLoginApp(string username, string password)
+        public object ApiLoginApp(Login userLogin)
         {
             System.Diagnostics.Debug.WriteLine("Home/ApiLogin");
             //var acc = GetApiObject<Models.Account>();
             var acc = new Models.Account();
-            acc.UserName = username;
-            acc.Password = password;
+            acc.UserName = userLogin.username;
+            acc.Password = userLogin.password;
             var id = acc.UserName.ToLower();
             var e = new AccountController()
                 .Collection

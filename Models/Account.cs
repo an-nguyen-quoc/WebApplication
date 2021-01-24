@@ -22,6 +22,11 @@ namespace Models
     //    public string UserName { get; set; }
 
     //}
+    public class Login
+    {
+        public string username { get; set; }
+        public string password { get; set; }
+    }
 
     public class UserCreate: BsonData.Document
     {

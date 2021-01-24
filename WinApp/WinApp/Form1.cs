@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +37,11 @@ namespace WinApp
 
         void SetMainContent(Views.IWindowView view)
         {
+            var menuview = new MenuViewControl();
+            //menuview.Dock = DockStyle.Fill;
+            flowLayoutPanel2.Controls.Add(menuview);
+            //flowLayoutPanel2.Dock = DockStyle.Fill;
+            //panel3.Controls.Add(new Views.MenuView(menulist));
             if (view == null) return;
 
             var content = view.GetMainContent();
@@ -68,6 +75,11 @@ namespace WinApp
         {
             Engine.Execute("home/exit");
             base.OnClosing(e);
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

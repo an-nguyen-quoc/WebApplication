@@ -18,6 +18,7 @@ namespace WinApp.Controllers
         public static event Action<MqttClient> Connected;
         public static event Action<MqttClient> Disconnected;
 
+        public static bool IsConnected => _broker != null && _broker.IsConnected;
         public static void Connect()
         {
             System.Diagnostics.Debug.WriteLine("Connect to " + Host + "...");

@@ -20,17 +20,21 @@ namespace WinApp.Controllers
             System.Diagnostics.Debug.WriteLine("Ctrl/Acc/Default");
            var db = Collection;
             var json = GetAsync("https://localhost:44395/Account/ApiIndexAsync").Result;
+            System.Diagnostics.Debug.WriteLine(json);
             if (json.Equals(null))
             {
+                System.Diagnostics.Debug.WriteLine("Ctrl/Acc/Default2");
                 return Post(CreateApiContext(null, null, "/account/select"), o => {
                     foreach (var e in o.ToObject<List<Models.Account>>())
                     {
                         System.Diagnostics.Debug.WriteLine(e.Id);
                         db.Insert(e.Id, e);
                     }
+
                     RedirectToAction("Default");               
                 });
             }
+            System.Diagnostics.Debug.WriteLine("Ctrl/Acc/Default3");
             List< Models.Account> result = JsonConvert.DeserializeObject< List<Models.Account>>(json);
             return View(result);
         }

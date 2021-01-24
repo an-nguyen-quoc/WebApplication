@@ -11,9 +11,11 @@ namespace WinApp.Views
 {
     class DeviceView : GroupBox
     {
+        public DeviceViewModel _selected;
         public DeviceView(Models.DeviceViewModel device)
         {
             this.Text = device.Name;
+            _selected = device;
             this.BackColor = Color.White;
             int w = 0;
             int x = 0, y = 10;
@@ -43,6 +45,9 @@ namespace WinApp.Views
                     led.State = p.Value;
                 }
             };
+            
+            
         }
+        
     }
 }
