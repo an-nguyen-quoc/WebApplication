@@ -11,7 +11,7 @@ namespace WinApp.Controllers
 {
     public class Env
     {
-        public static string BaseURL = "https://localhost:44396/";
+        public static string BaseURL = "https://localhost:44395/";
         public static string AccountAPI = BaseURL + "account/";
         public static string SignupAPI = BaseURL + "home/apisignup";
         public static string getDeviceAPI = BaseURL + "Device/ApiIndexAsync";

@@ -54,7 +54,7 @@ namespace WinApp.Controllers
             if (MqttController.IsConnected)
             {
                 MqttController.Broker.Publish(
-                        "controller/" + _selected.Id,
+                        "statusreply/" + _selected.Id,
                         Encoding.ASCII.GetBytes("{\"value\":" + value + "}"));
                 System.Diagnostics.Debug.WriteLine(_selected.Id);
             }
@@ -62,6 +62,7 @@ namespace WinApp.Controllers
 
                 public ActionResult Status(string id, JObject o)
         {
+            System.Diagnostics.Debug.WriteLine("Status");
             foreach (var device in _devices) { 
                 if (device.Id == id)
                 {

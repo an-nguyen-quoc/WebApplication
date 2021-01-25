@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Mvc;
@@ -14,6 +15,7 @@ namespace DeviceDemo.Controllers
     {
 
         static DEV _selected;
+        static List<DEV> _devices;
         static void Subcribe()
         {
             //if (!MqttController.IsConnected)
@@ -22,7 +24,7 @@ namespace DeviceDemo.Controllers
             {
 
                 MqttController.Broker.Subscribe(
-                    new string[] { "controller/" + _selected.Id }, 
+                    new string[] { "statusreply/" + _selected.Id }, 
                     new byte[] { 0 });
 
                 System.Diagnostics.Debug.WriteLine(_selected.Id);
@@ -51,27 +53,37 @@ namespace DeviceDemo.Controllers
             for (int i = 0; i < 4; i++)
                 s.Add("LED" + i, 0);
 
-            Subcribe();
+            //Subcribe();
 
             
             _selected = new DEV { Id = id, Status = s };
+            Subcribe();
+            Engine.CreateThread(MqttController.Connect);
             _selected.Changed += (d, v) => {
                 Publish(v);
+                Engine.CreateThread(MqttController.Connect);
             };
             
-            Engine.CreateThread(MqttController.Connect);
+            
 
             return View(_selected);
         }
+        public ActionResult StatusReply(string id, JObject o)
+        {
+            System.Diagnostics.Debug.WriteLine("StatusReply");
+            _selected.UpdateStatus(o.Get<int>("value"));
 
-       // void SetValue(int value)
+
+            return View(_selected);
+        }
+        // void SetValue(int value)
         //{
-          //  int i = 0;
+        //  int i = 0;
         //    foreach (var p in _leds)
-            //{
-              //  p.Value.State = value & (1 << i++);
-            //}
-          //  Model.UpdateStatus(value);
-       // }
+        //{
+        //  p.Value.State = value & (1 << i++);
+        //}
+        //  Model.UpdateStatus(value);
+        // }
     }
 }

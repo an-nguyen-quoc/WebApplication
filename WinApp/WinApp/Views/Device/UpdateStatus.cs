@@ -42,6 +42,7 @@ namespace WinApp.Views.Device
             int value = Convert.ToInt32(this.textBox2.Text);
             value = value & 15;
             Publish(selectedDevice, value);
+            Engine.CreateThread(MqttController.Connect);
         }
     }
 }

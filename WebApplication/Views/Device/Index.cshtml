@@ -34,36 +34,56 @@
 
     var table = new ApiTable("/device/", fields, values, 7, null);
 
-    var table = document.getElementsByClassName("progress-table").firstElementChild;
-    var Rows = document.getElementsByTagName("tr");
-    var RowsCount = Rows.length;
-    var i = 1;
-    for (i = 1; i < RowsCount; i++)
+    var status_cells = document.getElementsByClassName("status_cell");
+    //var Rows = document.getElementsByTagName("tr");
+    //var RowsCount = Rows.length;
+    //var i = 1;
+    var current_device = "";
+    for (let item of status_cells)
     {
-        var content = table.rows[i].cells.item(2).innerHTML;
-        console.log(content);
-        console.log(content[8]);
-        console.log(content[18]);
-        console.log(content[28]);
-        console.log(content[38]);
-        if (content[8] == '0')
-            table.rows[i].cells[2].innerHTML = "<label class='switch'>< input type = 'checkbox' checked><span class='slider round'></span></label >"
-        else
-            table.rows[i].cells[2].innerHTML = "<label class='switch'>< input type = 'checkbox' ><span class='slider round'></span></label >"
+        var noidung = item.innerHTML;
+       // console.log(noidung);
+       
+        if (noidung.indexOf("{LED") !== -1) {
+            var content = item.innerHTML;
+            //console.log(content);
+            //console.log(content[8]);
+            // console.log(content[18]);
+            var total_value = (parseInt(content[8]) << 3) + (parseInt(content[18]) << 2) + (parseInt(content[28]) << 1) + parseInt(content[38]);
+            console.log(total_value);
+           // console.log(content[28]);
+            //console.log(content[38]);
+            item.innerHTML = "";
+            if (content[8] == '1')
+                item.innerHTML += "<label class='switch'> <input onclick='check(\' " + current_device + " \', \'" + total_value + "\',8)' data_value='8' device='" + current_device + "' total_value ='" + total_value + "'  type = 'checkbox' checked > <span class='slider round'></span></label > "
+            else
+                item.innerHTML += "<label class='switch'> <input onclick=\"check(\' " + current_device + " \', \'" + total_value + "\',8)\" data_value='8' device='" + current_device + "' total_value ='" + total_value + "' type = 'checkbox'> <span class='slider round'></span></label >"
 
-        if (content[18] == '0')
-            table.rows[i].cells[2].innerHTML += "<label class='switch'>< input type = 'checkbox' checked><span class='slider round'></span></label >"
-        else
-            table.rows[i].cells[2].innerHTML += "<label class='switch'>< input type = 'checkbox' ><span class='slider round'></span></label >"
+            if (content[18] == '1')
+                item.innerHTML += "<label class='switch'> <input onclick='check(" + current_device + "," + total_value + ",4)' data_value='4' device='" + current_device + "' total_value ='" + total_value + "' type = 'checkbox' checked> <span class='slider round'></span></label >"
+            else
+                item.innerHTML += "<label class='switch'> <input onclick='check(" + current_device + "," + total_value + ",4)' data_value='4' device='" + current_device + "' total_value ='" + total_value + "' type = 'checkbox'> <span class='slider round'></span></label >"
 
-        if (content[28] == '0')
-            table.rows[i].cells[2].innerHTML += "<label class='switch'>< input type = 'checkbox' checked><span class='slider round'></span></label >"
-        else
-            table.rows[i].cells[2].innerHTML += "<label class='switch'>< input type = 'checkbox' ><span class='slider round'></span></label >"
+            if (content[28] == '1')
+                item.innerHTML += "<label class='switch'> <input onclick='check(" + current_device + "," + total_value + ",2)' data_value='2' device='" + current_device + "' total_value ='" + total_value + "' type = 'checkbox' checked><span class='slider round'></span></label >"
+            else
+                item.innerHTML += "<label class='switch'> <input onclick='check(" + current_device + "," + total_value + ",2)' data_value='2' device='" + current_device + "' total_value ='" + total_value + "' type = 'checkbox' ><span class='slider round'></span></label >"
 
-        if (content[38] == '0')
-            table.rows[i].cells[2].innerHTML += "<label class='switch'>< input type = 'checkbox' checked><span class='slider round'></span></label >"
-        else
-            table.rows[i].cells[2].innerHTML += "<label class='switch'>< input type = 'checkbox' ><span class='slider round'></span></label >"
+            if (content[38] == '1')
+                item.innerHTML += "<label class='switch'> <input onclick='check(" + current_device + "," + total_value + ",1)' data_value='1' device='" + current_device + "' total_value ='" + total_value + "' type = 'checkbox' checked><span class='slider round'></span></label >"
+            else
+                item.innerHTML += "<label class='switch'> <input onclick='check(" + current_device + "," + total_value + ",1)' data_value='1' device='" + current_device + "' total_value ='" + total_value + "' type = 'checkbox' ><span class='slider round'></span></label >"
+        }
+        else { 
+            current_device = item.innerHTML;
+            console.log(current_device);
+        }
+    }
+
+    function check(device, total, value) {
+        var checkboxs = document.getElementsByTagName("input");
+        for (let checkbox of checkboxs) {
+            var devices = checkbox.querySelector("[device='" + device + "'");
+        }
     }
 </script>

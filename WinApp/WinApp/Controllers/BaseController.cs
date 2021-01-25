@@ -22,7 +22,7 @@ namespace WinApp
                 if (_webRequest == null)
                 {
 
-                    _webRequest = new WebRequest("https://localhost:44396/");
+                    _webRequest = new WebRequest("https://localhost:44395/");
                     _webRequest.Responsed += o => Completed?.Invoke();
                     
                 }

@@ -34,6 +34,7 @@ namespace WinApp.Controllers
                             .Parse(Encoding.ASCII.GetString(e.Message));
 
                         Engine.Execute("device/" + e.Topic, o);
+                        System.Diagnostics.Debug.WriteLine(e.Topic);
                     };
                     _broker.Connect(Guid.NewGuid().ToString());
                     if (_broker.IsConnected)

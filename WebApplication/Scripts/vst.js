@@ -168,7 +168,7 @@ function ApiTable(url, cols, rows, update, actions) {
             if (!c) { col.caption = c = n; }
 
             //var td = head.child(new tag(i).addClass(n).html(c));
-            var td = head.child(new tag("td").html(c).id("column" + i));
+            var td = head.child(new tag("td").html(c));
             columns[n] = col;
         }
         var act = head.child(new tag("td").addClass("action"));
@@ -183,7 +183,7 @@ function ApiTable(url, cols, rows, update, actions) {
         for (var k in columns) {
             var v = rowsData[i][k];
             if (!v) { v = ""; }
-            tr.child(new tag("td")).html(v);
+            tr.child(new tag("td")).html(v).addClass("status_cell");
         }
         var act = tr.child(new tag("td").addClass("action")).data("index", i);
 
